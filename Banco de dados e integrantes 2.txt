@@ -1,0 +1,55 @@
+CREATE TABLE clientes (
+    id INTEGER AUTO_INCREMENT,
+    nome VARCHAR(100) NOT NULL,
+    endereco VARCHAR(100) NOT NULL,
+    numero VARCHAR(5) NOT NULL,
+    bairro VARCHAR(80) NOT NULL,
+    cidade VARCHAR(80) NOT NULL,
+    estado CHAR(2) NOT NULL,
+    email VARCHAR(100) NOT NULL,
+    cpf_cnpj VARCHAR(15) NOT NULL,
+    rg VARCHAR(10) NOT NULL,
+    telefone VARCHAR(15) NOT NULL,
+    celular VARCHAR(15) NOT NULL,
+    data_nasc DATE NOT NULL,
+    PRIMARY KEY (id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+CREATE TABLE login_usuarios (
+    id INTEGER AUTO_INCREMENT,
+    login VARCHAR(50) NOT NULL,
+    senha VARCHAR(255) NOT NULL,
+    id_cliente INTEGER,
+    FOREIGN KEY (id_cliente) REFERENCES clientes(id),
+    PRIMARY KEY (id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+CREATE TABLE pedidos (
+    id INTEGER AUTO_INCREMENT,
+    data DATE NOT NULL,
+    observacao VARCHAR(255) NOT NULL,
+    cond_pagto VARCHAR(100) NOT NULL,
+    prazo_entrega VARCHAR(100) NOT NULL,
+    id_cliente INTEGER,
+    FOREIGN KEY (id_cliente) REFERENCES clientes(id),
+    PRIMARY KEY (id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+CREATE TABLE produto (
+    id INTEGER AUTO_INCREMENT,
+    nome VARCHAR(255) NOT NULL,
+    qtd_estoque INT NOT NULL,
+    valor_unitario NUMERIC(10, 2) NOT NULL,
+    unidade_medida VARCHAR(10) NOT NULL,
+    PRIMARY KEY (id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+CREATE TABLE itens_pedido (
+    id_item INTEGER AUTO_INCREMENT,
+    qtde INT NOT NULL,
+    id_pedido INTEGER,
+    id_produto INTEGER,
+    FOREIGN KEY (id_pedido) REFERENCES pedidos(id),
+    FOREIGN KEY (id_produto) REFERENCES produto(id),
+    PRIMARY KEY (id_item)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
